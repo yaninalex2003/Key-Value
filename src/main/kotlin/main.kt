@@ -1,22 +1,15 @@
 import java.io.File
 
-fun scanFile(name: String): Array<String> {
-    var text: Array<String> = arrayOf()
-    for (line in File(name).readLines())
-        text += line
-    return text
-}
-
 fun dataToMap(data: File): MutableMap<String, String> {
     val ans: MutableMap<String, String> = mutableMapOf()
     for (line in data.readLines()) {
-        val map1 = line.split("===")
+        val map1 = line.split("==")
         ans += map1[0] to map1[1]
     }
     return ans;
 }
 
-fun find(key: String): String? {
+fun findValue(key: String): String? {
     val dataMap = dataToMap(File("src/data"))
     if (key in dataMap.keys) return dataMap[key]
     else {
@@ -25,41 +18,58 @@ fun find(key: String): String? {
     }
 }
 
-fun plus(key: String, value: String) {
-    val writer = File("src/data").bufferedWriter()
+fun add(key: String, value: String) {
     val dataMap = dataToMap(File("src/data"))
-    if (key in dataMap.values) {
+    if (key in dataMap.keys) {
         println(
             "Такой ключ уже имеется в базе данных, для изменения значения этого ключа" +
                     " можете воспользоваться функцией change"
         )
     } else {
-        writer.write("$key===$value")
+        File("src/data").appendText("\n$key==$value")
     }
-    writer.close()
 }
 
 fun delete(key: String) {
     val dataMap = dataToMap(File("src/data"))
-    println("Ключ: $key со значением ${dataMap[key]} удален")
-    dataMap.remove(key)
-    val writer = File("src/data").bufferedWriter()
-    for (i in dataMap.keys) {
-        writer.write("$i===${dataMap[i]}")
+    if (key in dataMap.keys) {
+        dataMap.remove(key)
+        val output = StringBuilder()
+        for (i in dataMap.keys) {
+            output.append("$i==${dataMap[i]}\n")
+        }
+        File("src/data").writeText(output.toString())
     }
-    writer.close()
+    else{
+        println("Такого ключа не существует")
+    }
 }
 
 fun change(key: String, value: String) {
     val dataMap = dataToMap(File("src/data"))
     if (key in dataMap.keys) {
-        dataMap[key]=value
-        val writer = File("src/data").bufferedWriter()
-        writer.write("$key===$value")
-        writer.close()
+        dataMap[key] = value
+        val output = StringBuilder()
+        for (i in dataMap.keys) {
+            output.append("$i==${dataMap[i]}\n")
+        }
+        File("src/data").writeText(output.toString())
     }
 }
 
 fun main(args: Array<String>) {
-    TODO()
+    val s = readLine()!!
+    val a = s.split("  ")
+    if (a[0] == "find") {
+        findValue(a[1])
+    }
+    if (a[0] == "add") {
+        add(a[1], a[2])
+    }
+    if (a[0] == "delete") {
+        delete(a[1])
+    }
+    if (a[0] == "change") {
+        change(a[1], a[2])
+    }
 }
