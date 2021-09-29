@@ -40,4 +40,14 @@ internal class Test1 {
         change("qwe", "%", File("src/testChange"))
         assertContentEquals(arrayOf("0==1", "qwe==%"), fileToArray(File("src/testChange")))
     }
+
+    @Test
+    fun testSwap() {
+        swap("qwe", "0", File("src/testSwap"))
+        assertContentEquals(arrayOf("0==%", "qwe==1"), fileToArray(File("src/testSwap")))
+        swap("0", "Я хочу ботать", File("src/testSwap"))
+        assertContentEquals(arrayOf("0==%", "qwe==1"), fileToArray(File("src/testSwap")))
+        swap("0", "qwe", File("src/testSwap"))
+        assertContentEquals(arrayOf("0==1", "qwe==%"), fileToArray(File("src/testSwap")))
+    }
 }
