@@ -1,6 +1,4 @@
 import java.io.File
-import java.io.IOException;
-import java.io.RandomAccessFile;
 
 fun dataToMap(data: File): MutableMap<String, String> {
     val ans: MutableMap<String, String> = mutableMapOf()
@@ -81,7 +79,7 @@ fun swap(key1: String, key2: String, data: File) {
     }
 }
 
-fun main(args: Array<String>) {
+fun main() {
     val s = readLine()!!
     val a = s.split("  ")
     if (a[0] == "find") {
@@ -98,5 +96,9 @@ fun main(args: Array<String>) {
     }
     if (a[0] == "swap") {
         swap(a[1], a[2], File("src/data"))
+    }
+    else{
+        println("К сожалению, такой функции не существует, существующие функции вы можете" +
+                " посмотреть в документации")
     }
 }
