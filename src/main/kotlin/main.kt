@@ -80,25 +80,32 @@ fun swap(key1: String, key2: String, data: File) {
 }
 
 fun main() {
-    val s = readLine()!!
-    val a = s.split("  ")
-    if (a[0] == "find") {
-        findValue(a[1], File("src/data"))
-    }
-    if (a[0] == "add") {
-        add(a[1], a[2], File("src/data"))
-    }
-    if (a[0] == "delete") {
-        delete(a[1], File("src/data"))
-    }
-    if (a[0] == "change") {
-        change(a[1], a[2], File("src/data"))
-    }
-    if (a[0] == "swap") {
-        swap(a[1], a[2], File("src/data"))
-    }
-    else{
-        println("К сожалению, такой функции не существует, существующие функции вы можете" +
-                " посмотреть в документации")
+    var line = readLine()!!
+    while (line!="end") {
+        if (line == "find") {
+            val key = readLine()!!
+            findValue(key, File("src/data"))
+        } else if (line == "add") {
+            val key = readLine()!!
+            val value = readLine()!!
+            add(key, value, File("src/data"))
+        } else if (line == "delete") {
+            val key = readLine()!!
+            delete(key, File("src/data"))
+        } else if (line == "change") {
+            val key = readLine()!!
+            val newValue = readLine()!!
+            change(key, newValue, File("src/data"))
+        } else if (line == "swap") {
+            val key1 = readLine()!!
+            val key2 = readLine()!!
+            swap(key1, key2, File("src/data"))
+        } else {
+            println(
+                "К сожалению, такой функции не существует, существующие функции вы можете" +
+                        " посмотреть в документации"
+            )
+        }
+        line = readLine()!!
     }
 }
